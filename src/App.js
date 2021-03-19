@@ -2,6 +2,7 @@ import React from 'react';
 import './App.scss';
 import Homepage from './containers/Homepage/Homepage';
 import { Link, Route } from 'react-router-dom';
+import ShopPage from './containers/Shop/Shop';
 
 const HatsPage = () => {
   return (
@@ -14,7 +15,7 @@ function App() {
   return (
     <div>
       <Route exact path='/' component={Homepage} />
-      <Route path='/hats' component= {HatsPage} />
+      <Route path='/shop' component= {ShopPage} />
       
     </div>
   );

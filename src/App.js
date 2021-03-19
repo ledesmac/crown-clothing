@@ -1,6 +1,7 @@
-import logo from './logo.svg';
+import React from 'react';
 import './App.scss';
-import Homepage from './components/Homepage';
+import Homepage from './containers/Homepage/Homepage';
+
 function App() {
   return (
     <div>

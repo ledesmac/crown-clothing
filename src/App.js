@@ -2,7 +2,7 @@ import React from 'react';
 import './App.scss';
 import Homepage from './containers/Homepage/Homepage';
 import { Route, Switch } from 'react-router-dom';
-import { auth } from './firebase/friebase.utils';
+import { auth, createUserProfileDocument } from './firebase/friebase.utils';
 //containers 
 import ShopPage from './containers/Shop/Shop';
 import SignInAndSignUpPage from './containers/Sign-in-and-Sign-up/sign-in-and-sign-up';
@@ -21,11 +21,23 @@ class App extends React.Component {
  unsubscribeFromAuth = null;
 
   componentDidMount() {
-    auth.onAuthStateChanged(user => {
-      this.setState({ currentUser: user});
-      !this.state.currentUser ?
-        console.log('Null') :
-        console.log(this.state.currentUser);
+    auth.onAuthStateChanged(async userAuth => {
+      if(userAuth){
+        const userRef = await createUserProfileDocument(userAuth);
+        console.log("userRef:", userRef);
+        userRef.onSnapshot(snapShot => {
+          this.setState({
+            currentUser: {
+              id: snapShot.id,
+              ...snapShot.data()
+            }
+          });
+
+          console.log(this.state);
+        });
+      } else {
+        this.setState({ currentUser: userAuth});
+      }
     });
   }
 

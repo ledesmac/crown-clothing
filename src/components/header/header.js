@@ -1,12 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { createStructuredSelector } from 'reselect';
+
 import { ReactComponent as Logo} from '../../assets/crown.svg';
 import { auth } from '../../firebase/friebase.utils'
 
 //components
 import CartIcon from '../cart-icon/cart-icon';
 import CartDropdown from '../cart-dropdown/cart-dropdown';
+
+import { selectCartHidden } from '../../redux/cart/cart.selectors';
+import { selectCurrentUser } from '../../redux/user/user.selector';
 
 import './header.scss';
 
@@ -45,10 +50,8 @@ const Header = ({ currentUser, hidden }) => {
 }
 //parameter is an example of a nested 
 //destructuring from state
-const mapStateToProps = ({ user : { currentUser }, cart: { hidden }}) => {
-    return({
-        currentUser,
-        hidden
-    });
-}
+const mapStateToProps = createStructuredSelector({
+        currentUser: selectCurrentUser,
+        hidden: selectCartHidden
+});
 export default connect(mapStateToProps)(Header);
